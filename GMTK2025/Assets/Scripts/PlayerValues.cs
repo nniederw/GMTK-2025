@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Timeline.Actions.MenuPriority;
+using TMPro;
 public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
 {
     [SerializeField] private uint Health = 10;
@@ -21,6 +21,10 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
     [SerializeField] private Image Slot2UI;
     [SerializeField] private Image Slot3UI;
     [SerializeField] private Image Slot4UI;
+    [SerializeField] private TMP_Text Slot1UIText;
+    [SerializeField] private TMP_Text Slot2UIText;
+    [SerializeField] private TMP_Text Slot3UIText;
+    [SerializeField] private TMP_Text Slot4UIText;
     [SerializeField] private Sprite DefaultItemSprite;
 
     [SerializeField] private List<Item> StartItems = new List<Item>();
@@ -39,6 +43,10 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
         if (Slot2UI == null) throw new Exception($"{nameof(Slot2UI)} was null in {nameof(PlayerValues)}, please assing it.");
         if (Slot3UI == null) throw new Exception($"{nameof(Slot3UI)} was null in {nameof(PlayerValues)}, please assing it.");
         if (Slot4UI == null) throw new Exception($"{nameof(Slot4UI)} was null in {nameof(PlayerValues)}, please assing it.");
+        if (Slot1UIText == null) throw new Exception($"{nameof(Slot1UIText)} was null in {nameof(PlayerValues)}, please assing it.");
+        if (Slot2UIText == null) throw new Exception($"{nameof(Slot2UIText)} was null in {nameof(PlayerValues)}, please assing it.");
+        if (Slot3UIText == null) throw new Exception($"{nameof(Slot3UIText)} was null in {nameof(PlayerValues)}, please assing it.");
+        if (Slot4UIText == null) throw new Exception($"{nameof(Slot4UIText)} was null in {nameof(PlayerValues)}, please assing it.");
         if (DefaultItemSprite == null) throw new Exception($"{nameof(DefaultItemSprite)} was null in {nameof(PlayerValues)}, please assing it.");
         TotalItemsStats = ScriptableObject.CreateInstance<Item>();
         foreach (Item item in StartItems)
@@ -97,6 +105,11 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
         Slot2UI.sprite = Armor != null ? Armor.Sprite : DefaultItemSprite;
         Slot3UI.sprite = Shield != null ? Shield.Sprite : DefaultItemSprite;
         Slot4UI.sprite = Amulet != null ? Amulet.Sprite : DefaultItemSprite;
+        Slot1UIText.text = Sword != null ? Sword.GetText() : "";
+        Slot2UIText.text = Armor != null ? Armor.GetText() : "";
+        Slot3UIText.text = Shield != null ? Shield.GetText() : "";
+        Slot4UIText.text = Amulet != null ? Amulet.GetText() : "";
+
     }
     private IEnumerable<Item> CurrentlyHoldingItems()
     {
@@ -140,7 +153,6 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
     }
     public bool WantsItem()
     {
-        Debug.Log("Wants Item");
         return Input.GetKeyDown(KeyCode.E);
     }
 
