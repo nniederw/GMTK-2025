@@ -5,6 +5,9 @@ using UnityEngine;
 public class TakableItem : MonoBehaviour
 {
     [SerializeField] private Item Item;
+    private Vector2 TargetLocation;
+    private bool MovingToTarget = false;
+    [SerializeField] private float TargetMovingSeconds = 0.1f;
     private SpriteRenderer Renderer;
     private HashSet<Collider2D> colliders = new HashSet<Collider2D>();
     public void SetItem(Item item)
@@ -13,6 +16,11 @@ public class TakableItem : MonoBehaviour
         Renderer.sprite = item.Sprite;
     }
     public Item GetItem() => Item;
+    public void SetTargetLocation(Vector2 target)
+    {
+        TargetLocation = target;
+        MovingToTarget = true;
+    }
     private void Awake()
     {
         Renderer = GetComponent<SpriteRenderer>();
@@ -20,15 +28,22 @@ public class TakableItem : MonoBehaviour
     }
     private void Update()
     {
-        var cols = colliders.Where(i => i != null).ToList();
-        foreach (var collider in cols)
+        var itemTakers = colliders.Where(i => i != null).Select(i => i.GetInterfaceComponent<ItemTaker>()).Where(i => i != null).ToList();
+        foreach (var itemTaker in itemTakers)
         {
-            var itemTaker = collider.GetInterfaceComponent<ItemTaker>();
             if (itemTaker.WantsItem())
             {
                 itemTaker.TakeItem(Item);
                 Destroy(gameObject);
                 break;
+            }
+        }
+        if (MovingToTarget)
+        {
+            transform.position = Vector2.Lerp(transform.position, TargetLocation, Time.deltaTime / TargetMovingSeconds);
+            if (((Vector2)transform.position - TargetLocation).sqrMagnitude < 0.0001f)
+            {
+                MovingToTarget = false;
             }
         }
     }
@@ -40,15 +55,4 @@ public class TakableItem : MonoBehaviour
     {
         colliders.Remove(collision);
     }
-    /*
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        Debug.Log("OnTriggerStay");
-        var itemTaker = other.GetInterfaceComponent<ItemTaker>();
-        if (itemTaker.WantsItem())
-        {
-            itemTaker.TakeItem(Item);
-            Destroy(gameObject);
-        }
-    }*/
 }

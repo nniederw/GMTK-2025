@@ -16,7 +16,7 @@ public class Item : ScriptableObject
         }
         if (DamageAbsorbtion != 0)
         {
-            result += $"Damage reduction {DamageAbsorbtion}\n";
+            result += $"Armor +{DamageAbsorbtion}\n";
         }
         return result != "" ? result.Substring(0, result.Length - 1) : "";
     }

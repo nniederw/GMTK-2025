@@ -8,8 +8,9 @@ public class TakableItemsSpawner : MonoBehaviour
     {
         var dir = Ext.RandomPointOnUnitCircle();
         var pos = approxSpawnPos + dir * instance.RandomDistance;
-        var ti = Instantiate(instance.TakableItemPrefab, pos, Quaternion.identity);
+        var ti = Instantiate(instance.TakableItemPrefab, approxSpawnPos, Quaternion.identity);
         ti.SetItem(item);
+        ti.SetTargetLocation(pos);
     }
     private void Awake()
     {

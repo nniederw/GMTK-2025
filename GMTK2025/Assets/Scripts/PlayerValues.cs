@@ -4,13 +4,15 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor.Rendering;
 public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
 {
     [SerializeField] private uint Health = 10;
     [SerializeField] private float AttackCooldownSeconds = 1f;
     private float AttackCooldown = 0f;
-    [SerializeField] private float AttackRange = 0.5f;
-
+    //[SerializeField] private float AttackRange = 0.5f;
+    private float SwordSwingPercentage = 1f;
+    [SerializeField] private float SwordSwingClockSeconds = 0.2f;
     [SerializeField] private Item Sword = null;
     [SerializeField] private Item Armor = null;
     [SerializeField] private Item Shield = null;
@@ -25,9 +27,13 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
     [SerializeField] private TMP_Text Slot2UIText;
     [SerializeField] private TMP_Text Slot3UIText;
     [SerializeField] private TMP_Text Slot4UIText;
+
+    [SerializeField] private TMP_Text HeartText;
+
     [SerializeField] private Sprite DefaultItemSprite;
 
     [SerializeField] private List<Item> StartItems = new List<Item>();
+    [SerializeField] private GameObject SwordPivotPoint;
     public void RecieveDamage(uint damage)
     {
         uint newHealth = Health - DamageAfterReduction(damage);
@@ -35,6 +41,25 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
         {
             Health = 0;
         }
+        Health = newHealth;
+        HeartText.text = Health.ToString();
+    }
+    public void OnSwordHittingCollider(Collider2D col)
+    {
+        Debug.Log($"Hit collider {col.name} with sword");
+        var dmab = col.GetInterfaceComponent<IDamagable>();
+        if (dmab != null)
+        {
+            dmab.RecieveDamage(Damage());
+        }
+    }
+    public bool WantsItem()
+    {
+        return Input.GetKeyDown(KeyCode.E);
+    }
+    public void TakeItem(Item item)
+    {
+        AddItem(item);
     }
     private void Start()
     {
@@ -48,12 +73,45 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
         if (Slot3UIText == null) throw new Exception($"{nameof(Slot3UIText)} was null in {nameof(PlayerValues)}, please assing it.");
         if (Slot4UIText == null) throw new Exception($"{nameof(Slot4UIText)} was null in {nameof(PlayerValues)}, please assing it.");
         if (DefaultItemSprite == null) throw new Exception($"{nameof(DefaultItemSprite)} was null in {nameof(PlayerValues)}, please assing it.");
+        if (HeartText == null) throw new Exception($"{nameof(HeartText)} was null in {nameof(PlayerValues)}, please assing it.");
+        if (SwordPivotPoint == null) throw new Exception($"{nameof(SwordPivotPoint)} was null in {nameof(PlayerValues)}, please assing it.");
+
+        var swordCollider = GetComponentInChildren<SwordCollider>();
+        if (swordCollider == null) throw new Exception($"{nameof(swordCollider)} was not found in {nameof(PlayerValues)}, please make sure any child of it has an instance of {nameof(SwordCollider)}.");
+        swordCollider.AddSwordCollisionListener(OnSwordHittingCollider);
         TotalItemsStats = ScriptableObject.CreateInstance<Item>();
         foreach (Item item in StartItems)
         {
             AddItem(item);
         }
         UpdateItems(); //In case of no start items.
+    }
+    private void Update()
+    {
+        if (SwordSwingPercentage != 1f)
+        {
+            SwordSwingPercentage += Time.deltaTime / SwordSwingClockSeconds;
+            SwordSwingPercentage = Math.Min(1f, SwordSwingPercentage);
+            SwordPivotPoint.transform.eulerAngles = new Vector3(0, 0, 360f * SwordSwingPercentage);
+        }
+        if (AttackCooldown > 0f)
+        {
+            AttackCooldown -= Time.deltaTime;
+            AttackCooldown = Math.Min(0f, AttackCooldown);
+        }
+        if (Health == 0)
+        {
+            Debug.Log("Death!");
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            ToggleInventory();
+        }
+        if (AttackCooldown <= 0f && Input.GetKeyDown(KeyCode.Space))
+        {
+            SwordSwingPercentage = 0f;
+            AttackCooldown = AttackCooldownSeconds;
+        }
     }
     private void AddItem(Item item)
     {
@@ -118,6 +176,10 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
         if (Armor != null) { yield return Armor; }
         if (Amulet != null) { yield return Amulet; }
     }
+    private uint Damage()
+    {
+        return TotalItemsStats.DamageIncrease;
+    }
     private uint DamageAfterReduction(uint damage)
     {
         int reducedDamage = (int)damage - (int)TotalItemsStats.DamageAbsorbtion;
@@ -140,24 +202,5 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
         }
         OpenInventory();
     }
-    private void Update()
-    {
-        if (Health == 0)
-        {
-            Debug.Log("Death!");
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            ToggleInventory();
-        }
-    }
-    public bool WantsItem()
-    {
-        return Input.GetKeyDown(KeyCode.E);
-    }
 
-    public void TakeItem(Item item)
-    {
-        AddItem(item);
-    }
 }

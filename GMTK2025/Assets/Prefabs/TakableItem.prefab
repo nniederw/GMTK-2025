@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Item: {fileID: 11400000, guid: 4e23b997552eeef4994159ddce1fdb2c, type: 2}
+  TargetMovingSeconds: 0.1
 --- !u!212 &2493735960394052448
 SpriteRenderer:
   m_ObjectHideFlags: 0
