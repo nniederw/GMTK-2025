@@ -19,4 +19,10 @@ public static class Ext
     {
         return obj.GetComponents<MonoBehaviour>().OfType<TInterface>().ToArray();
     }
+    public static Vector2 RandomPointOnUnitCircle()
+    {
+        float angle = Random.Range(0f, Mathf.PI * 2);
+        Vector2 pointOnUnitCircle = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+        return pointOnUnitCircle;
+    }
 }
