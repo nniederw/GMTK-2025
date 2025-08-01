@@ -8,7 +8,7 @@ using UnityEditor.Rendering;
 public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
 {
     [SerializeField] private uint Health = 10;
-    [SerializeField] private float AttackCooldownSeconds = 1f;
+    [SerializeField] private float AttackCooldownSeconds = 0.7f;
     private float AttackCooldown = 0f;
     //[SerializeField] private float AttackRange = 0.5f;
     private float SwordSwingPercentage = 1f;
@@ -34,6 +34,9 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
 
     [SerializeField] private List<Item> StartItems = new List<Item>();
     [SerializeField] private GameObject SwordPivotPoint;
+    [SerializeField] private SpriteRenderer SwordSpriteRenderer;
+    private SwordCollider SwordCollider;
+    private event Action OnSwordAttack;
     public void RecieveDamage(uint damage)
     {
         uint newHealth = Health - DamageAfterReduction(damage);
@@ -46,7 +49,7 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
     }
     public void OnSwordHittingCollider(Collider2D col)
     {
-        Debug.Log($"Hit collider {col.name} with sword");
+        //Debug.Log($"Hit collider {col.name} with sword");
         var dmab = col.GetInterfaceComponent<IDamagable>();
         if (dmab != null)
         {
@@ -60,6 +63,10 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
     public void TakeItem(Item item)
     {
         AddItem(item);
+    }
+    public void SubscribeToSwordAttack(Action playSwordAttackSound)
+    {
+        OnSwordAttack += playSwordAttackSound;
     }
     private void Start()
     {
@@ -75,10 +82,11 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
         if (DefaultItemSprite == null) throw new Exception($"{nameof(DefaultItemSprite)} was null in {nameof(PlayerValues)}, please assing it.");
         if (HeartText == null) throw new Exception($"{nameof(HeartText)} was null in {nameof(PlayerValues)}, please assing it.");
         if (SwordPivotPoint == null) throw new Exception($"{nameof(SwordPivotPoint)} was null in {nameof(PlayerValues)}, please assing it.");
+        if (SwordSpriteRenderer == null) throw new Exception($"{nameof(SwordSpriteRenderer)} was null in {nameof(PlayerValues)}, please assing it.");
 
-        var swordCollider = GetComponentInChildren<SwordCollider>();
-        if (swordCollider == null) throw new Exception($"{nameof(swordCollider)} was not found in {nameof(PlayerValues)}, please make sure any child of it has an instance of {nameof(SwordCollider)}.");
-        swordCollider.AddSwordCollisionListener(OnSwordHittingCollider);
+        SwordCollider = GetComponentInChildren<SwordCollider>();
+        if (SwordCollider == null) throw new Exception($"{nameof(SwordCollider)} was not found in {nameof(PlayerValues)}, please make sure any child of it has an instance of {nameof(SwordCollider)}.");
+        SwordCollider.AddSwordCollisionListener(OnSwordHittingCollider);
         TotalItemsStats = ScriptableObject.CreateInstance<Item>();
         foreach (Item item in StartItems)
         {
@@ -92,12 +100,16 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
         {
             SwordSwingPercentage += Time.deltaTime / SwordSwingClockSeconds;
             SwordSwingPercentage = Math.Min(1f, SwordSwingPercentage);
+            if (SwordSwingPercentage == 1f)
+            {
+                SwordCollider.DisableCollider();
+            }
             SwordPivotPoint.transform.eulerAngles = new Vector3(0, 0, 360f * SwordSwingPercentage);
         }
         if (AttackCooldown > 0f)
         {
             AttackCooldown -= Time.deltaTime;
-            AttackCooldown = Math.Min(0f, AttackCooldown);
+            AttackCooldown = Math.Max(0f, AttackCooldown);
         }
         if (Health == 0)
         {
@@ -110,7 +122,9 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
         if (AttackCooldown <= 0f && Input.GetKeyDown(KeyCode.Space))
         {
             SwordSwingPercentage = 0f;
+            SwordCollider.EnableCollider();
             AttackCooldown = AttackCooldownSeconds;
+            OnSwordAttack?.Invoke();
         }
     }
     private void AddItem(Item item)
@@ -132,6 +146,7 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
                 Armor = item; break;
             case ItemClass.Shield:
                 if (Shield != null)
+
                 {
                     OldItem = Shield;
                 }
@@ -167,7 +182,10 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
         Slot2UIText.text = Armor != null ? Armor.GetText() : "";
         Slot3UIText.text = Shield != null ? Shield.GetText() : "";
         Slot4UIText.text = Amulet != null ? Amulet.GetText() : "";
-
+        if (Sword != null)
+        {
+            SwordSpriteRenderer.sprite = Sword.Sprite;
+        }
     }
     private IEnumerable<Item> CurrentlyHoldingItems()
     {
@@ -178,11 +196,11 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
     }
     private uint Damage()
     {
-        return TotalItemsStats.DamageIncrease;
+        return (uint)Math.Max(0, TotalItemsStats.DamageIncrease);
     }
     private uint DamageAfterReduction(uint damage)
     {
-        int reducedDamage = (int)damage - (int)TotalItemsStats.DamageAbsorbtion;
+        int reducedDamage = (int)damage - TotalItemsStats.DamageAbsorbtion;
         return (uint)Math.Max(reducedDamage, 0);
     }
     private void OpenInventory()
@@ -202,5 +220,6 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
         }
         OpenInventory();
     }
+
 
 }

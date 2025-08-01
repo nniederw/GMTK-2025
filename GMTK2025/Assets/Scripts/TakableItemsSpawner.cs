@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 public class TakableItemsSpawner : MonoBehaviour
 {
@@ -11,6 +12,13 @@ public class TakableItemsSpawner : MonoBehaviour
         var ti = Instantiate(instance.TakableItemPrefab, approxSpawnPos, Quaternion.identity);
         ti.SetItem(item);
         ti.SetTargetLocation(pos);
+    }
+    public static void SpawnItems(Vector2 approxSpawnPos, IEnumerable<Item> items)
+    {
+        foreach (var item in items)
+        {
+            SpawnItem(approxSpawnPos, item);
+        }
     }
     private void Awake()
     {

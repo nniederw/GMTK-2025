@@ -16,6 +16,10 @@ public class EnemyAI : MonoBehaviour
     {
         Target = target;
     }
+    public void SetDamage(uint damage)
+    {
+        Damage = damage;
+    }
     private void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
