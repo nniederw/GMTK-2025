@@ -21,7 +21,7 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
     [SerializeField] private GameObject SwordPivotPoint;
     [SerializeField] private SpriteRenderer SwordSpriteRenderer;
     [SerializeField] private ShieldController ShieldController;
-
+    [SerializeField] private SpriteController ArmorController;
     [SerializeField] private DamagableTeam Team;
     private SwordCollider SwordCollider;
     private event Action OnSwordAttack;
@@ -90,6 +90,7 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
         if (SwordSpriteRenderer == null) throw new Exception($"{nameof(SwordSpriteRenderer)} was null in {nameof(CharacterValues)}, please assing it.");
         if (EmptySprite == null) throw new Exception($"{nameof(EmptySprite)} was null in {nameof(CharacterValues)}, please assing it.");
         if (ShieldController == null) throw new Exception($"{nameof(ShieldController)} was null in {nameof(CharacterValues)}, please assing it.");
+        if (ArmorController == null) throw new Exception($"{nameof(ArmorController)} was null in {nameof(CharacterValues)}, please assing it.");
         SwordCollider = GetComponentInChildren<SwordCollider>();
         if (SwordCollider == null) throw new Exception($"{nameof(SwordCollider)} was not found in {nameof(CharacterValues)}, please make sure any child of it has an instance of {nameof(SwordCollider)}.");
         SwordCollider.AddSwordCollisionListener(OnSwordHittingCollider);
@@ -99,7 +100,6 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
             AddItem(item);
         }
         UpdateItems();
-
     }
     private void Update()
     {
@@ -221,6 +221,7 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
         OnPotentialInventoryChange?.Invoke((Sword, Armor, Shield, Amulet));
         SwordSpriteRenderer.sprite = Sword == null ? EmptySprite : Sword.Sprite;
         ShieldController.UpdateSprite(Shield == null ? EmptySprite : Shield.Sprite);
+        ArmorController.UpdateSprite(Armor == null ? EmptySprite : Armor.Sprite);
     }
     private IEnumerable<Item> CurrentlyHoldingItems()
     {
