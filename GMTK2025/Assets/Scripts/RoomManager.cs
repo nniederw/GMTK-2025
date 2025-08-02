@@ -14,6 +14,6 @@ public class RoomManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        PlayerTransform = GameObject.FindGameObjectsWithTag("Player").First().transform;
+        PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 }

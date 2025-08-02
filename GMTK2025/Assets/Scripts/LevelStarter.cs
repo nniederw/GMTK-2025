@@ -1,8 +1,9 @@
 using UnityEngine;
 public class LevelStarter : MonoBehaviour
 {
-    void Start()
+    private void Start()
     {
         RoomManager.FinishedRoom();
+        Destroy(gameObject);
     }
 }
