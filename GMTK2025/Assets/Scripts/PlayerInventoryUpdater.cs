@@ -2,10 +2,10 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-[RequireComponent(typeof(PlayerValues))]
+[RequireComponent(typeof(CharacterValues))]
 public class PlayerInventoryUpdater : MonoBehaviour
 {
-    private PlayerValues PlayerValues;
+    private CharacterValues PlayerValues;
     [SerializeField] private GameObject InventoryUI;
     [SerializeField] private Image Slot1UI;
     [SerializeField] private Image Slot2UI;
@@ -18,7 +18,7 @@ public class PlayerInventoryUpdater : MonoBehaviour
     [SerializeField] private Sprite DefaultItemSprite;
     private void Awake()
     {
-        PlayerValues = GetComponent<PlayerValues>();
+        PlayerValues = GetComponent<CharacterValues>();
         PlayerValues.SubscribeToOnPotentialInventoryChange(OnPotentialInventoryChange);
     }
     private void Start()

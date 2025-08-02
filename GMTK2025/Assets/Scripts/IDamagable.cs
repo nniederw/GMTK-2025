@@ -5,5 +5,6 @@ public interface IDamagable
 public enum DamagableTeam
 {
     Enemy,
-    Player
+    Player,
+    Boss
 }

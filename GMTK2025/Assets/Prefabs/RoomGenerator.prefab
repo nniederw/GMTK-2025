@@ -44,6 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83bdc8aa2cb5fd44c9d807abf88df12a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rooms: []
+  Rooms:
+  - {fileID: 11400000, guid: c8963c46587f2bb4eabf7f9501e42c55, type: 2}
   EnemyPrefab: {fileID: 6368829683972896919, guid: 4b3d22fc5a864c048bdac5e4bc4a07e4, type: 3}
-  SpawnableItems: []
+  SpawnableItems:
+  - {fileID: 11400000, guid: b660e886172ffcb45813fb62c9dc39c4, type: 2}
+  - {fileID: 11400000, guid: 4f6319903df410145beab6c5738b70b5, type: 2}
+  - {fileID: 11400000, guid: 61884dd11b291df48992f73443e34950, type: 2}
+  - {fileID: 11400000, guid: d2639dda57ae77a43bee2d6350ba9fbb, type: 2}
+  - {fileID: 11400000, guid: 51a3ca1f3abf7b040b428a268d5f8b7c, type: 2}
+  - {fileID: 11400000, guid: 5d783a24b0acf354392edbc3e003b6d1, type: 2}

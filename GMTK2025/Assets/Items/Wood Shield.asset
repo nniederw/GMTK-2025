@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee006e6eedf07eb4da3058c0c8c2c9b5, type: 3}
-  m_Name: Basic Armor
+  m_Name: Wood Shield
   m_EditorClassIdentifier: 
   Rarity: 0
   DamageIncrease: 0
-  Armor: 1
-  DamageBlockage: 0
-  Sprite: {fileID: -8637231371426133247, guid: 7cad7f1ff88f4a14099f257c4a26fd0e, type: 3}
-  Class: 2
+  Armor: 0
+  DamageBlockage: 2
+  Sprite: {fileID: 4145070663936968339, guid: a35c1aaf08ede0d44ae02e8307265fbb, type: 3}
+  Class: 1

@@ -1,5 +1,5 @@
 using UnityEngine;
-[RequireComponent(typeof(PlayerValues))]
+[RequireComponent(typeof(CharacterValues))]
 public class SwordAttackSound : MonoBehaviour
 {
     [SerializeField] private AudioClip SwordAttackClip;
@@ -7,7 +7,7 @@ public class SwordAttackSound : MonoBehaviour
     private void Start()
     {
         if (SwordAttackClip == null) { throw new System.Exception($"{nameof(SwordAttackClip)} was null in {nameof(SwordAttackSound)}, please assign it."); }
-        PlayerValues playerValues = GetComponent<PlayerValues>();
+        CharacterValues playerValues = GetComponent<CharacterValues>();
         playerValues.SubscribeToSwordAttack(PlaySwordAttackSound);
     }
     private void PlaySwordAttackSound()

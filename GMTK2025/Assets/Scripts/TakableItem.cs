@@ -31,7 +31,7 @@ public class TakableItem : MonoBehaviour
         var itemTakers = colliders.Where(i => i != null).Select(i => i.GetInterfaceComponent<ItemTaker>()).Where(i => i != null).ToList();
         foreach (var itemTaker in itemTakers)
         {
-            if (itemTaker.WantsItem())
+            if (itemTaker.WantsItem(Item))
             {
                 itemTaker.TakeItem(Item);
                 Destroy(gameObject);

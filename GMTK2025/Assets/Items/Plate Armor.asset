@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee006e6eedf07eb4da3058c0c8c2c9b5, type: 3}
-  m_Name: Basic Armor
+  m_Name: Plate Armor
   m_EditorClassIdentifier: 
-  Rarity: 0
+  Rarity: 1
   DamageIncrease: 0
-  Armor: 1
+  Armor: 2
   DamageBlockage: 0
-  Sprite: {fileID: -8637231371426133247, guid: 7cad7f1ff88f4a14099f257c4a26fd0e, type: 3}
+  Sprite: {fileID: -5414539940658981786, guid: 31e9546dc1ced2f4ba65f932b925e36b, type: 3}
   Class: 2
