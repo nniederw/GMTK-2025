@@ -322,6 +322,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: -48.94214
       objectReference: {fileID: 0}
+    - target: {fileID: 5641986749128692101, guid: 1b76b940b79a32144acc2608a194d7f6, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 764090839999506651, guid: 4942ca3b6a61f214ab4d4674012a5c6f, type: 3}
     - target: {fileID: 5656876329217730753, guid: 1b76b940b79a32144acc2608a194d7f6, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -483,7 +487,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1326376270733436969, guid: 8527ef8655fdbe745b1a69333b448c90, type: 3}
       propertyPath: StartItems.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1326376270733436969, guid: 8527ef8655fdbe745b1a69333b448c90, type: 3}
       propertyPath: 'StartItems.Array.data[1]'
