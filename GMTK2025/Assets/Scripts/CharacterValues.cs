@@ -5,7 +5,9 @@ using UnityEngine;
 public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
 {
     [SerializeField] private uint Health = 10;
-    [SerializeField] private float AttackCooldownSeconds = 0.7f;
+    [SerializeField] private float BaseAttackCooldownSeconds = 0.7f;
+    private float AttackCooldownSeconds => Sword == null ? BaseAttackCooldownSeconds * AttackSpeedMultiplier : BaseAttackCooldownSeconds * AttackSpeedMultiplier * Sword.SwordLength;
+    private float AttackSpeedMultiplier => 1f - TotalItemsStats.AdditionalAttackSpeedPercentage / 100f;
     private float AttackCooldown = 0f;
     private float SwordSwingPercentage = 1f;
     [SerializeField] private float SwordSwingClockSeconds = 0.2f;
@@ -26,6 +28,7 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
     private SwordCollider SwordCollider;
     private event Action OnSwordAttack;
     private event Action<uint> OnPotentialHealthChange;
+    private event Action OnDeath;
     private event Action<(Item Sword, Item Armor, Item Shield, Item Amulet)> OnPotentialInventoryChange;
     private Func<Item, bool> WantsItemCheck = i => false;
     private Func<bool> WantsToAttack = () => false;
@@ -53,37 +56,23 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
         }
     }
     public bool WantsItem(Item item)
-    {
-        return WantsItemCheck.Invoke(item);
-    }
+        => WantsItemCheck.Invoke(item);
     public void TakeItem(Item item)
-    {
-        AddItem(item);
-    }
+        => AddItem(item);
     public void SubscribeToSwordAttack(Action playSwordAttackSound)
-    {
-        OnSwordAttack += playSwordAttackSound;
-    }
+        => OnSwordAttack += playSwordAttackSound;
     public void SubscribeToOnPotentialInventoryChange(Action<(Item Sword, Item Armor, Item Shield, Item Amulet)> action)
-    {
-        OnPotentialInventoryChange += action;
-    }
+        => OnPotentialInventoryChange += action;
     public void SubscribeToOnPotentialHealthChange(Action<uint> action)
-    {
-        OnPotentialHealthChange += action;
-    }
+        => OnPotentialHealthChange += action;
+    public void SubscibeToOnDeath(Action action)
+        => OnDeath += action;
     public void SetWantsItemFunction(Func<Item, bool> func)
-    {
-        WantsItemCheck = func;
-    }
+        => WantsItemCheck = func;
     public void SetWantsToAttackFunction(Func<bool> func)
-    {
-        WantsToAttack = func;
-    }
+        => WantsToAttack = func;
     public void SetWantsToBlockFunction(Func<bool> func)
-    {
-        WantsToBlock = func;
-    }
+        => WantsToBlock = func;
     private void Start()
     {
         if (SwordPivotPoint == null) throw new Exception($"{nameof(SwordPivotPoint)} was null in {nameof(CharacterValues)}, please assing it.");
@@ -122,6 +111,7 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
         {
             Debug.Log("Death!");
             DropAllItems();
+            OnDeath?.Invoke();
         }
         if (CanBlock() && RemainingBlock == 0f && WantsToBlock())
         {
@@ -212,16 +202,21 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
         TotalItemsStats.DamageIncrease = 0;
         TotalItemsStats.Armor = 0;
         TotalItemsStats.DamageBlockage = 0;
+        TotalItemsStats.AdditionalAttackSpeedPercentage = 0;
+        float attackSpeedPerc = 1f;
         foreach (var i in items)
         {
             TotalItemsStats.DamageIncrease += i.DamageIncrease;
             TotalItemsStats.Armor += i.Armor;
             TotalItemsStats.DamageBlockage += i.DamageBlockage;
+            attackSpeedPerc *= 1f + i.AdditionalAttackSpeedPercentage / 100f;
         }
+        TotalItemsStats.AdditionalAttackSpeedPercentage = (int)Math.Round(attackSpeedPerc * 100f - 100f);
         OnPotentialInventoryChange?.Invoke((Sword, Armor, Shield, Amulet));
         SwordSpriteRenderer.sprite = Sword == null ? EmptySprite : Sword.Sprite;
         ShieldController.UpdateSprite(Shield == null ? EmptySprite : Shield.Sprite);
         ArmorController.UpdateSprite(Armor == null ? EmptySprite : Armor.Sprite);
+        SwordCollider.OnSwordChange(Sword);
     }
     private IEnumerable<Item> CurrentlyHoldingItems()
     {

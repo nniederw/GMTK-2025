@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 public class RoomManager : MonoBehaviour
@@ -15,5 +14,12 @@ public class RoomManager : MonoBehaviour
     {
         Instance = this;
         PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        var playerValues = PlayerTransform.GetComponent<CharacterValues>();
+        playerValues.SubscibeToOnDeath(OnPlayerDeath);
+    }
+    private void OnPlayerDeath()
+    {
+        GameManager.SaveLastDeathItems(TakableItemsSpawner.GetActiveItems().Select(i => ((Vector2)i.transform.position, i.GetItem())), CurrentDifficulty);
+        GameManager.RestartGame();
     }
 }

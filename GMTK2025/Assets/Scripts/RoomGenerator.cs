@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class RoomGenerator : MonoBehaviour
 {
-    private static RoomGenerator instance;
+    private static RoomGenerator Instance;
     [SerializeField] private List<Room> Rooms = new List<Room>();
     [SerializeField] private GameObject EnemyPrefab;
     [SerializeField] private List<Item> SpawnableItems;
@@ -13,19 +13,20 @@ public class RoomGenerator : MonoBehaviour
     private const float CommonItemProbability = .6f;
     private const float RareItemProbability = .5f;
     private const float EpicItemProbability = .4f;
-    private const float LegendaryItemProbability = .2f;
+    private const float LegendaryItemProbability = .1f;
+    private const float RecoverLastDeathRoom = .25f;
     private static Scene? OldRoom = null;
     private static int LoadRoom = -1; //Load in frame where LoadRoom == 0, otherwise -- unless already -1
-    private static AsyncOperation UnloadingRoom;
     private static List<(uint health, uint damage)> NextEnemiesStats;
     private static List<Vector2> NextEnemiesPositions;
     private static List<List<Item>> NextEnemiesDrops;
     private static Transform PlayerTransform;
+    private static List<(Vector2 pos, Item item)> LastDeathItemsToSpawn = new List<(Vector2 pos, Item item)>();
     public static void GenerateRoom(Transform playerTransform, uint difficulty = 1)
     {
         PlayerTransform = playerTransform;
-        var roomIndex = Random.Range(0, instance.Rooms.Count);
-        Room room = instance.Rooms[roomIndex];
+        var roomIndex = Random.Range(0, Instance.Rooms.Count);
+        Room room = Instance.Rooms[roomIndex];
         var y = room.BottomLeft.y;
         var x = (room.BottomLeft.x + room.TopRight.x) / 2f;
         PlayerTransform.position = new Vector2(x, y);
@@ -95,6 +96,15 @@ public class RoomGenerator : MonoBehaviour
         NextEnemiesPositions = enemiesPos;
         NextEnemiesDrops = enemyDrops;
         LoadRoom = 1;
+        if (GameManager.HasLastDeathItems() && GameManager.GetLastDeathDifficulty() == difficulty && Random.Range(0f, 1f) < RecoverLastDeathRoom)
+        {
+            Debug.Log("Items respawned, lucky you");
+            LastDeathItemsToSpawn = GameManager.GetLastDeathItems();
+        }
+        else
+        {
+            LastDeathItemsToSpawn = new List<(Vector2 pos, Item item)>();
+        }
     }
     private void Update()
     {
@@ -103,6 +113,7 @@ public class RoomGenerator : MonoBehaviour
             OldRoom = SceneManager.GetSceneAt(SceneManager.sceneCount - 1);
             SceneManager.SetActiveScene(OldRoom.Value);
             SpawnEnemies(NextEnemiesStats, NextEnemiesPositions, NextEnemiesDrops);
+            TakableItemsSpawner.SpawnItems(LastDeathItemsToSpawn);
         }
         if (LoadRoom >= 0)
         {
@@ -175,7 +186,7 @@ public class RoomGenerator : MonoBehaviour
     }
     private static void SpawnEnemy(uint health, uint damage, Vector2 pos, List<Item> drops)
     {
-        var obj = Instantiate(instance.EnemyPrefab, pos, Quaternion.identity);
+        var obj = Instantiate(Instance.EnemyPrefab, pos, Quaternion.identity);
         EnemyAI enemyAI = obj.GetComponent<EnemyAI>();
         EnemyStats stats = obj.GetComponent<EnemyStats>();
         enemyAI.SetTarget(PlayerTransform);
@@ -187,11 +198,12 @@ public class RoomGenerator : MonoBehaviour
     {
         if (Rooms.Count == 0) { throw new System.Exception($"There are no Rooms assigned to {nameof(RoomGenerator)}, please assign some."); }
         if (SpawnableItems.Distinct().Count() != SpawnableItems.Count) { throw new System.Exception($"There are duplicates in the {nameof(SpawnableItems)} in {nameof(RoomGenerator)}, please remove them."); }
-        instance = this;
+        Instance = this;
+        OldRoom = null;
     }
-    private static IEnumerable<Item> CommonItems() => instance.SpawnableItems.Where(i => i.Rarity == ItemRarity.Common);
-    private static IEnumerable<Item> RareItems() => instance.SpawnableItems.Where(i => i.Rarity == ItemRarity.Rare);
-    private static IEnumerable<Item> EpicItems() => instance.SpawnableItems.Where(i => i.Rarity == ItemRarity.Epic);
-    private static IEnumerable<Item> LegendaryItems() => instance.SpawnableItems.Where(i => i.Rarity == ItemRarity.Legendary);
+    private static IEnumerable<Item> CommonItems() => Instance.SpawnableItems.Where(i => i.Rarity == ItemRarity.Common);
+    private static IEnumerable<Item> RareItems() => Instance.SpawnableItems.Where(i => i.Rarity == ItemRarity.Rare);
+    private static IEnumerable<Item> EpicItems() => Instance.SpawnableItems.Where(i => i.Rarity == ItemRarity.Epic);
+    private static IEnumerable<Item> LegendaryItems() => Instance.SpawnableItems.Where(i => i.Rarity == ItemRarity.Legendary);
 
 }

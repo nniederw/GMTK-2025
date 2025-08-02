@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 940a1d5ac6628c944b4703d4c95d1e02
+guid: 689c437f981f00347b0104774a41f75b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4020399061611779076
-    second: EmberedFume_0
+      213: 6666484928555658589
+    second: EmberedFumeGreatsword_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: EmberedFume_0
+      name: EmberedFumeGreatsword_0
       rect:
         serializedVersion: 2
         x: 4
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4041fa245a35bc730800000000000000
-      internalID: 4020399061611779076
+      spriteID: d5d2e03d8bc148c50800000000000000
+      internalID: 6666484928555658589
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      EmberedFume_0: 4020399061611779076
+      EmberedFumeGreatsword_0: 6666484928555658589
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

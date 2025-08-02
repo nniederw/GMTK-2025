@@ -19,12 +19,12 @@ public class PlayerInput : MonoBehaviour
     }
     private bool WantsToAttack()
     {
-        return Input.GetKeyDown(KeyCode.Space);
+        return Input.GetAxis("Attack") != 0f;
     }
     private bool WantsToBlock()
     {
         //Debug.Log($"Wants to block: {Input.GetMouseButton(1)}");
-        return Input.GetMouseButton(1);
+        return Input.GetAxis("Block") != 0f;
     }
     private Vector2 MovementDirection()
     {

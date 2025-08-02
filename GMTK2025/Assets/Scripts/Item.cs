@@ -1,12 +1,13 @@
 using UnityEngine;
-using UnityEngine.Windows;
 [CreateAssetMenu(fileName = "Item", menuName = "Scriptable Objects/Item")]
 public class Item : ScriptableObject
 {
     public ItemRarity Rarity = ItemRarity.Common;
     public int DamageIncrease = 0;
+    public float SwordLength = 1f;
     public int Armor = 0;
     public int DamageBlockage = 0;
+    public int AdditionalAttackSpeedPercentage = 0;
     public Sprite Sprite;
     public ItemClass Class;
     public string GetText()
@@ -26,6 +27,11 @@ public class Item : ScriptableObject
         {
             string sign = DamageBlockage > 0 ? "+" : "";
             result += $"Block Strength {sign}{DamageBlockage}\n";
+        }
+        if (AdditionalAttackSpeedPercentage != 0)
+        {
+            string sign = AdditionalAttackSpeedPercentage > 0 ? "+" : "";
+            result += $"Attack Speed {sign}{AdditionalAttackSpeedPercentage}%\n";
         }
         return result != "" ? result.Substring(0, result.Length - 1) : "";
     }
