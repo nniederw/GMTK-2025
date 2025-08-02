@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee006e6eedf07eb4da3058c0c8c2c9b5, type: 3}
-  m_Name: Evil Sword
+  m_Name: Wooden Sword
   m_EditorClassIdentifier: 
-  DamageIncrease: 4
-  DamageAbsorbtion: -1
-  Sprite: {fileID: -5125094736011219210, guid: 912737e107234894d918f076dc82047b, type: 3}
+  Rarity: 0
+  DamageIncrease: 1
+  DamageAbsorbtion: 0
+  Sprite: {fileID: 21300000, guid: 24d2a92d06fe2f244a5233cb341af985, type: 3}
   Class: 0

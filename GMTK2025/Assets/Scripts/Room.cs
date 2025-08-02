@@ -8,7 +8,9 @@ public class Room : ScriptableObject
     public Vector2 TopRight;
     private void Awake()
     {
-        var loadable = Application.CanStreamedLevelBeLoaded(SceneName);
+        var loadable = Ext.SceneExistsInBuildSettings(SceneName);
+        //var loadable = SceneManager.GetActiveScene().name == SceneName || Application.CanStreamedLevelBeLoaded(SceneName);
+        //SceneManager.GetSceneByName(SceneName).IsValid();
         if (!loadable) { throw new System.Exception($"Assigned Scene {SceneName} of {name} {nameof(Room)} can't be loaded."); }
     }
 }

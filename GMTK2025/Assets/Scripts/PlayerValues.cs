@@ -4,8 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEditor.Rendering;
-public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
+public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
 {
     [SerializeField] private uint Health = 10;
     [SerializeField] private float AttackCooldownSeconds = 0.7f;
@@ -37,8 +36,12 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
     [SerializeField] private SpriteRenderer SwordSpriteRenderer;
     private SwordCollider SwordCollider;
     private event Action OnSwordAttack;
-    public void RecieveDamage(uint damage)
+    public void RecieveDamage(uint damage, DamagableTeam source)
     {
+        if (source == DamagableTeam.Player)
+        {
+            return;
+        }
         uint newHealth = Health - DamageAfterReduction(damage);
         if (newHealth > Health)
         {
@@ -53,7 +56,7 @@ public class PlayerValues : MonoBehaviour, IDamagable, ItemTaker
         var dmab = col.GetInterfaceComponent<IDamagable>();
         if (dmab != null)
         {
-            dmab.RecieveDamage(Damage());
+            dmab.RecieveDamage(Damage(), DamagableTeam.Player);
         }
     }
     public bool WantsItem()

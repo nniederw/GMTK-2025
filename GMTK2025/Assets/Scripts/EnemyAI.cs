@@ -61,7 +61,7 @@ public class EnemyAI : MonoBehaviour
         var damagables = cols.Select(i => i.GetInterfaceComponent<IDamagable>()).Where(i => i != null);
         foreach (var damagable in damagables)
         {
-            damagable.RecieveDamage(Damage);
+            damagable.RecieveDamage(Damage, DamagableTeam.Enemy);
         }
     }
 }

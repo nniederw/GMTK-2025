@@ -6,8 +6,9 @@ public class EnemyStats : MonoBehaviour, IDamagable
     [SerializeField] private uint Health = 2;
     private event Action OnDeath;
     private List<Item> Drops = new List<Item>();
-    public void RecieveDamage(uint damage)
+    public void RecieveDamage(uint damage, DamagableTeam source)
     {
+        if (source == DamagableTeam.Enemy) { return; }
         var newHealth = Health - damage;
         if (newHealth > Health)
         {

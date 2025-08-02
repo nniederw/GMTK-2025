@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class RoomGenerator : MonoBehaviour
@@ -14,9 +15,15 @@ public class RoomGenerator : MonoBehaviour
     private const float EpicItemProbability = .4f;
     private const float LegendaryItemProbability = .2f;
     private static Scene? OldRoom = null;
-
-    public static void GenerateRoom(Transform PlayerTransform, uint difficulty = 1)
+    private static int LoadRoom = -1; //Load in frame where LoadRoom == 0, otherwise -- unless already -1
+    private static AsyncOperation UnloadingRoom;
+    private static List<(uint health, uint damage)> NextEnemiesStats;
+    private static List<Vector2> NextEnemiesPositions;
+    private static List<List<Item>> NextEnemiesDrops;
+    private static Transform PlayerTransform;
+    public static void GenerateRoom(Transform playerTransform, uint difficulty = 1)
     {
+        PlayerTransform = playerTransform;
         var roomIndex = Random.Range(0, instance.Rooms.Count);
         Room room = instance.Rooms[roomIndex];
         var y = room.BottomLeft.y;
@@ -41,26 +48,31 @@ public class RoomGenerator : MonoBehaviour
         if (OldRoom != null)
         {
             SceneManager.UnloadSceneAsync(OldRoom.Value);
+            //UnloadingRoom = SceneManager.UnloadSceneAsync(OldRoom.Value);
+            //WaitForUnloading().Wait();
         }
         SceneManager.LoadScene(room.SceneName, LoadSceneMode.Additive);
-        OldRoom = SceneManager.GetSceneByName(room.SceneName);
-        SceneManager.SetActiveScene(OldRoom.Value);
+        //OldRoom = SceneManager.GetSceneByName(room.SceneName);
         uint comItems = 0;
         uint rarItems = 0;
         uint epiItems = 0;
         uint legItems = 0;
         if (difficulty <= 2)
         {
+            comItems = 1;
+        }
+        else if (difficulty <= 4)
+        {
             comItems = 2;
             rarItems = 1;
         }
-        else if (difficulty <= 4)
+        else if (difficulty <= 6)
         {
             comItems = 1;
             rarItems = 2;
             epiItems = 1;
         }
-        else if (difficulty <= 6)
+        else if (difficulty <= 8)
         {
             comItems = 0;
             rarItems = 1;
@@ -74,19 +86,46 @@ public class RoomGenerator : MonoBehaviour
             legItems = 1;
         }
         List<List<Item>> enemyDrops = new List<List<Item>>((int)enemyCount);
+        for (int i = 0; i < enemyCount; i++)
+        {
+            enemyDrops.Add(new List<Item>(0));
+        }
         FillListWithItems(enemyDrops, comItems, rarItems, epiItems, legItems);
-        SpawnEnemies(enemies, enemiesPos, enemyDrops);
+        NextEnemiesStats = enemies;
+        NextEnemiesPositions = enemiesPos;
+        NextEnemiesDrops = enemyDrops;
+        LoadRoom = 1;
     }
-    private static Vector2 RandomEnemyPos(Vector2 PlayerPos, Vector2 bottomLeftBound, Vector2 topRightBound)
+    private void Update()
     {
+        if (LoadRoom == 0)
+        {
+            OldRoom = SceneManager.GetSceneAt(SceneManager.sceneCount - 1);
+            SceneManager.SetActiveScene(OldRoom.Value);
+            SpawnEnemies(NextEnemiesStats, NextEnemiesPositions, NextEnemiesDrops);
+        }
+        if (LoadRoom >= 0)
+        {
+            LoadRoom--;
+        }
+    }
+    //private static async Task WaitForUnloading()    {        await UnloadingRoom;    }
+    private static Vector2 RandomEnemyPos(Vector2 PlayerPos, Vector2 bottomLeftBound, Vector2 topRightBound, uint iteration = 0)
+    {
+        const uint maxIterations = 100;
         float x = Random.Range(bottomLeftBound.x, topRightBound.x);
         float y = Random.Range(bottomLeftBound.y, topRightBound.y);
         Vector2 res = new Vector2(x, y);
-        if ((res - PlayerPos).sqrMagnitude < MinEnemyDistanceToPlayer * MinEnemyDistanceToPlayer)
+        if ((res - PlayerPos).sqrMagnitude > MinEnemyDistanceToPlayer * MinEnemyDistanceToPlayer)
         {
             return res;
         }
-        return RandomEnemyPos(PlayerPos, bottomLeftBound, topRightBound);
+        if (iteration == maxIterations)
+        {
+            Debug.Log($"Couldn't generate random valid enemy position in {maxIterations} attempts, returning a nonvalid position.");
+            return res;
+        }
+        return RandomEnemyPos(PlayerPos, bottomLeftBound, topRightBound, iteration + 1);
     }
     private static void FillListWithItems(List<List<Item>> enemyDrops, uint comItems, uint rarItems, uint epiItems, uint legItems)
     {
@@ -121,6 +160,7 @@ public class RoomGenerator : MonoBehaviour
     }
     private static void AddRandomItemAtRandomIndex(List<List<Item>> enemyDrops, List<Item> possibleItems)
     {
+        if (enemyDrops.Count == 0 || possibleItems.Count == 0) { return; }
         int ind1 = Random.Range(0, enemyDrops.Count);
         int ind2 = Random.Range(0, possibleItems.Count);
         enemyDrops[ind1].Add(possibleItems[ind2]);
@@ -135,16 +175,18 @@ public class RoomGenerator : MonoBehaviour
     }
     private static void SpawnEnemy(uint health, uint damage, Vector2 pos, List<Item> drops)
     {
-        var obj = Instantiate(instance.EnemyPrefab);
+        var obj = Instantiate(instance.EnemyPrefab, pos, Quaternion.identity);
         EnemyAI enemyAI = obj.GetComponent<EnemyAI>();
         EnemyStats stats = obj.GetComponent<EnemyStats>();
+        enemyAI.SetTarget(PlayerTransform);
         enemyAI.SetDamage(damage);
         stats.SetHealth(health);
         stats.SetDrops(drops);
     }
-    private void Start()
+    private void Awake()
     {
         if (Rooms.Count == 0) { throw new System.Exception($"There are no Rooms assigned to {nameof(RoomGenerator)}, please assign some."); }
+        if (SpawnableItems.Distinct().Count() != SpawnableItems.Count) { throw new System.Exception($"There are duplicates in the {nameof(SpawnableItems)} in {nameof(RoomGenerator)}, please remove them."); }
         instance = this;
     }
     private static IEnumerable<Item> CommonItems() => instance.SpawnableItems.Where(i => i.Rarity == ItemRarity.Common);

@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee006e6eedf07eb4da3058c0c8c2c9b5, type: 3}
-  m_Name: Basic Sword
+  m_Name: Sword
   m_EditorClassIdentifier: 
-  DamageIncrease: 1
+  Rarity: 1
+  DamageIncrease: 3
   DamageAbsorbtion: 0
-  Sprite: {fileID: -5125094736011219210, guid: 912737e107234894d918f076dc82047b, type: 3}
+  Sprite: {fileID: 21300000, guid: d6b0048a847a19343bbfcca25c146184, type: 3}
   Class: 0

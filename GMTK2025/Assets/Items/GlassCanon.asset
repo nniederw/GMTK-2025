@@ -15,5 +15,5 @@ MonoBehaviour:
   Rarity: 3
   DamageIncrease: 999
   DamageAbsorbtion: -999
-  Sprite: {fileID: 0}
+  Sprite: {fileID: 8682813988508808556, guid: bb4513b6a3d3bbf4c88e51ef0b038d41, type: 3}
   Class: 0

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Basic Square Room
   m_EditorClassIdentifier: 
   SceneName: Basic Square Room
-  BottomLeft: {x: 0, y: 0}
-  TopRight: {x: 0, y: 0}
+  BottomLeft: {x: -7, y: -7}
+  TopRight: {x: 7, y: 7}
