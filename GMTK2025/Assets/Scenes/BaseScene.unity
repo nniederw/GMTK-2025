@@ -777,18 +777,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1989403279096369124, guid: efc671f77bc0ffa4e9580aa3f30f299f, type: 3}
-      propertyPath: SpawnableItems.Array.size
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1989403279096369124, guid: efc671f77bc0ffa4e9580aa3f30f299f, type: 3}
-      propertyPath: 'SpawnableItems.Array.data[6]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 759a7eebb7f190f4d9469c319d8342e3, type: 2}
-    - target: {fileID: 1989403279096369124, guid: efc671f77bc0ffa4e9580aa3f30f299f, type: 3}
-      propertyPath: 'SpawnableItems.Array.data[7]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 9b7739d016a586a4d9b897a67eecc918, type: 2}
     - target: {fileID: 2363898502423420765, guid: efc671f77bc0ffa4e9580aa3f30f299f, type: 3}
       propertyPath: m_Name
       value: RoomGenerator

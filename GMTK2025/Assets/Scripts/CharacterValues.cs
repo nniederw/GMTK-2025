@@ -5,6 +5,8 @@ using UnityEngine;
 public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
 {
     [SerializeField] private uint Health = 10;
+    [SerializeField] private uint BaseDamage = 0;
+    private uint Damage => (uint)Math.Max(0, BaseDamage + TotalItemsStats.DamageIncrease);
     [SerializeField] private float BaseAttackCooldownSeconds = 0.7f;
     private float AttackCooldownSeconds => Sword == null ? BaseAttackCooldownSeconds * AttackSpeedMultiplier : BaseAttackCooldownSeconds * AttackSpeedMultiplier * Sword.SwordLength;
     private float AttackSpeedMultiplier => 1f - TotalItemsStats.AdditionalAttackSpeedPercentage / 100f;
@@ -18,6 +20,7 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
     [SerializeField] private Item Shield = null;
     [SerializeField] private Item Amulet = null;
     private Item TotalItemsStats;
+    private List<Item> DeleteOnDeath = new List<Item>();
     [SerializeField] private Sprite EmptySprite;
     [SerializeField] private List<Item> StartItems = new List<Item>();
     [SerializeField] private GameObject SwordPivotPoint;
@@ -52,7 +55,7 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
         var dmab = col.GetInterfaceComponent<IDamagable>();
         if (dmab != null)
         {
-            dmab.RecieveDamage(Damage(), Team);
+            dmab.RecieveDamage(Damage, Team);
         }
     }
     public bool WantsItem(Item item)
@@ -73,6 +76,21 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
         => WantsToAttack = func;
     public void SetWantsToBlockFunction(Func<bool> func)
         => WantsToBlock = func;
+    public void SetBaseDamage(uint damage)
+        => BaseDamage = damage;
+    public void SetBaseHealth(uint health)
+        => Health = health;
+    public void SetDeleteOnDeathItems(IEnumerable<Item> items)
+        => DeleteOnDeath = items.ToList();
+    public bool HasSword()
+        => Sword != null;
+    private void Awake()
+    {
+        SwordCollider = GetComponentInChildren<SwordCollider>();
+        if (SwordCollider == null) throw new Exception($"{nameof(SwordCollider)} was not found in {nameof(CharacterValues)}, please make sure any child of it has an instance of {nameof(SwordCollider)}.");
+        SwordCollider.AddSwordCollisionListener(OnSwordHittingCollider);
+        TotalItemsStats = ScriptableObject.CreateInstance<Item>();
+    }
     private void Start()
     {
         if (SwordPivotPoint == null) throw new Exception($"{nameof(SwordPivotPoint)} was null in {nameof(CharacterValues)}, please assing it.");
@@ -80,10 +98,6 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
         if (EmptySprite == null) throw new Exception($"{nameof(EmptySprite)} was null in {nameof(CharacterValues)}, please assing it.");
         if (ShieldController == null) throw new Exception($"{nameof(ShieldController)} was null in {nameof(CharacterValues)}, please assing it.");
         if (ArmorController == null) throw new Exception($"{nameof(ArmorController)} was null in {nameof(CharacterValues)}, please assing it.");
-        SwordCollider = GetComponentInChildren<SwordCollider>();
-        if (SwordCollider == null) throw new Exception($"{nameof(SwordCollider)} was not found in {nameof(CharacterValues)}, please make sure any child of it has an instance of {nameof(SwordCollider)}.");
-        SwordCollider.AddSwordCollisionListener(OnSwordHittingCollider);
-        TotalItemsStats = ScriptableObject.CreateInstance<Item>();
         foreach (Item item in StartItems)
         {
             AddItem(item);
@@ -153,7 +167,7 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
         if (Shield != null) { toDrop.Add(Shield); Shield = null; }
         if (Armor != null) { toDrop.Add(Armor); Armor = null; }
         if (Amulet != null) { toDrop.Add(Amulet); Amulet = null; }
-        foreach (var item in toDrop)
+        foreach (var item in toDrop.Where(i => !DeleteOnDeath.Contains(i)))
         {
             TakableItemsSpawner.SpawnItem(transform.position, item);
         }
@@ -224,10 +238,6 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
         if (Shield != null) { yield return Shield; }
         if (Armor != null) { yield return Armor; }
         if (Amulet != null) { yield return Amulet; }
-    }
-    private uint Damage()
-    {
-        return (uint)Math.Max(0, TotalItemsStats.DamageIncrease);
     }
     private uint DamageAfterReduction(uint damage)
     {

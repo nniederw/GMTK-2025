@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 19e1fdf02fd47e44ba52402bbc52e787
+guid: 5b68b3b547c289b4ca95f1b764731320
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2955983761155546030
-    second: EmptyItem_0
+      213: -5462905226146939197
+    second: CrystalZweihander_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: EmptyItem_0
+      name: CrystalZweihander_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 3
         y: 0
-        width: 128
-        height: 128
+        width: 26
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: eabdf7db193c50920800000000000000
-      internalID: 2955983761155546030
+      spriteID: 3cef2e9f3acdf24b0800000000000000
+      internalID: -5462905226146939197
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      EmptyItem_0: 2955983761155546030
+      CrystalZweihander_0: -5462905226146939197
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

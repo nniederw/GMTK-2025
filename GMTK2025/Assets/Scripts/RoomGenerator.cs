@@ -188,11 +188,10 @@ public class RoomGenerator : MonoBehaviour
     {
         var obj = Instantiate(Instance.EnemyPrefab, pos, Quaternion.identity);
         EnemyAI enemyAI = obj.GetComponent<EnemyAI>();
-        EnemyStats stats = obj.GetComponent<EnemyStats>();
         enemyAI.SetTarget(PlayerTransform);
         enemyAI.SetDamage(damage);
-        stats.SetHealth(health);
-        stats.SetDrops(drops);
+        enemyAI.SetDrops(drops);
+        enemyAI.SetHealth(health);
     }
     private void Awake()
     {

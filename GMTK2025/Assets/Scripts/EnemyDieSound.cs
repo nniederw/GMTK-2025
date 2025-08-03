@@ -1,5 +1,5 @@
 using UnityEngine;
-[RequireComponent(typeof(EnemyStats))]
+[RequireComponent(typeof(EnemyAI))]
 public class EnemyDieSound : MonoBehaviour
 {
     [SerializeField] private AudioClip EnemyDieClip;
@@ -7,8 +7,8 @@ public class EnemyDieSound : MonoBehaviour
     private void Start()
     {
         if (EnemyDieClip == null) { throw new System.Exception($"{nameof(EnemyDieClip)} was null in {nameof(EnemyDieSound)}, please assign it."); }
-        EnemyStats enemyStats = GetComponent<EnemyStats>();
-        enemyStats.SubscribeToOnDeath(PlayEnemyDieSound);
+        EnemyAI enemyAi = GetComponent<EnemyAI>();
+        enemyAi.SubscribeToOnDeath(PlayEnemyDieSound);
     }
     private void PlayEnemyDieSound()
     {

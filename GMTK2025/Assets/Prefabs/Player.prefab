@@ -190,6 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 10
+  BaseDamage: 0
   BaseAttackCooldownSeconds: 0.7
   SwordSwingClockSeconds: 0.2
   MinBlockSeconds: 0.3
@@ -217,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4edd660a0c3e2d348ae672e37777a69c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerSpeed: 5
+  CharacterSpeed: 3
 --- !u!114 &8104036896002555673
 MonoBehaviour:
   m_ObjectHideFlags: 0
