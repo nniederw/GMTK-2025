@@ -487,7 +487,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1326376270733436969, guid: 8527ef8655fdbe745b1a69333b448c90, type: 3}
       propertyPath: StartItems.Array.size
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1326376270733436969, guid: 8527ef8655fdbe745b1a69333b448c90, type: 3}
       propertyPath: 'StartItems.Array.data[0]'
@@ -501,6 +501,14 @@ PrefabInstance:
       propertyPath: 'StartItems.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: b660e886172ffcb45813fb62c9dc39c4, type: 2}
+    - target: {fileID: 1326376270733436969, guid: 8527ef8655fdbe745b1a69333b448c90, type: 3}
+      propertyPath: 'StartItems.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f4b7fc2b444428f44a3950db40aef917, type: 2}
+    - target: {fileID: 1326376270733436969, guid: 8527ef8655fdbe745b1a69333b448c90, type: 3}
+      propertyPath: 'StartItems.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 42d4688a8d43815469392ec46ce196e0, type: 2}
     - target: {fileID: 2237504059419525565, guid: 8527ef8655fdbe745b1a69333b448c90, type: 3}
       propertyPath: m_Name
       value: Player
@@ -768,7 +776,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoomManager
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 380275009696311692, guid: b486785a6193626479133c8186f69d39, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

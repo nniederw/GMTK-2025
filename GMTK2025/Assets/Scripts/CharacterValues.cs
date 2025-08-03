@@ -8,6 +8,8 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
     [SerializeField] private uint BaseDamage = 0;
     private uint Damage => (uint)Math.Max(0, BaseDamage + TotalItemsStats.DamageIncrease);
     [SerializeField] private float BaseAttackCooldownSeconds = 0.7f;
+    private int BaseArmor = 0;
+    private int ArmorValue => BaseArmor + TotalItemsStats.Armor;
     private float AttackCooldownSeconds => Sword == null ? BaseAttackCooldownSeconds * AttackSpeedMultiplier : BaseAttackCooldownSeconds * AttackSpeedMultiplier * Sword.SwordLength;
     private float AttackSpeedMultiplier => 1f - TotalItemsStats.AdditionalAttackSpeedPercentage / 100f;
     private float AttackCooldown = 0f;
@@ -27,6 +29,7 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
     [SerializeField] private SpriteRenderer SwordSpriteRenderer;
     [SerializeField] private ShieldController ShieldController;
     [SerializeField] private SpriteController ArmorController;
+    [SerializeField] private SpriteController AmuletController;
     [SerializeField] private DamagableTeam Team;
     private SwordCollider SwordCollider;
     private event Action OnSwordAttack;
@@ -80,10 +83,23 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
         => BaseDamage = damage;
     public void SetBaseHealth(uint health)
         => Health = health;
+    public void SetBaseArmor(int armor)
+       => BaseArmor = armor;
     public void SetDeleteOnDeathItems(IEnumerable<Item> items)
         => DeleteOnDeath = items.ToList();
     public bool HasSword()
         => Sword != null;
+    public bool HasArmor()
+        => Armor != null;
+    public Item GetSword()
+        => Sword;
+    public IEnumerable<Item> AllItems()
+    {
+        if(Sword != null) { yield return Sword; }
+        if(Shield != null) { yield return Shield; }
+        if(Armor != null) { yield return Armor; }
+        if(Amulet != null) { yield return Amulet; }
+    }
     private void Awake()
     {
         SwordCollider = GetComponentInChildren<SwordCollider>();
@@ -98,6 +114,7 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
         if (EmptySprite == null) throw new Exception($"{nameof(EmptySprite)} was null in {nameof(CharacterValues)}, please assing it.");
         if (ShieldController == null) throw new Exception($"{nameof(ShieldController)} was null in {nameof(CharacterValues)}, please assing it.");
         if (ArmorController == null) throw new Exception($"{nameof(ArmorController)} was null in {nameof(CharacterValues)}, please assing it.");
+        if (AmuletController == null) throw new Exception($"{nameof(AmuletController)} was null in {nameof(CharacterValues)}, please assing it.");
         foreach (Item item in StartItems)
         {
             AddItem(item);
@@ -123,7 +140,7 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
         }
         if (Health == 0)
         {
-            Debug.Log("Death!");
+            Debug.Log($"Death of {name}");
             DropAllItems();
             OnDeath?.Invoke();
         }
@@ -230,6 +247,7 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
         SwordSpriteRenderer.sprite = Sword == null ? EmptySprite : Sword.Sprite;
         ShieldController.UpdateSprite(Shield == null ? EmptySprite : Shield.Sprite);
         ArmorController.UpdateSprite(Armor == null ? EmptySprite : Armor.Sprite);
+        AmuletController.UpdateSprite(Amulet == null ? EmptySprite : Amulet.Sprite);
         SwordCollider.OnSwordChange(Sword);
     }
     private IEnumerable<Item> CurrentlyHoldingItems()
@@ -241,7 +259,7 @@ public class CharacterValues : MonoBehaviour, IDamagable, ItemTaker, IPlayer
     }
     private uint DamageAfterReduction(uint damage)
     {
-        int reducedDamage = (int)damage - TotalItemsStats.Armor;
+        int reducedDamage = (int)damage - ArmorValue;
         if (Blocking())
         {
             reducedDamage -= TotalItemsStats.DamageBlockage;

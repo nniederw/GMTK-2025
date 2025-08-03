@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee006e6eedf07eb4da3058c0c8c2c9b5, type: 3}
-  m_Name: Wood Shield
+  m_Name: Onyx Amulet
   m_EditorClassIdentifier: 
-  Rarity: 0
+  Rarity: 2
   DamageIncrease: 0
   SwordLength: 1
-  Armor: 0
-  DamageBlockage: 3
-  AdditionalAttackSpeedPercentage: 0
-  Sprite: {fileID: 21300000, guid: a35c1aaf08ede0d44ae02e8307265fbb, type: 3}
-  Class: 1
+  Armor: 1
+  DamageBlockage: 0
+  AdditionalAttackSpeedPercentage: 50
+  Sprite: {fileID: 21300000, guid: 9eebb73e088b34844874cfe58475ed77, type: 3}
+  Class: 3

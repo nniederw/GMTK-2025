@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 139109266945888933}
   - component: {fileID: 6368541088852749253}
+  - component: {fileID: 380275009696311692}
   m_Layer: 0
   m_Name: RoomManager
   m_TagString: Untagged
@@ -42,5 +43,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aac5d2c76863bd1469fb8b905c158cf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentDifficulty: 0
+  ThroneroomSpawnDifficulty: 10
+  ThroneRoomPlayerPos: {x: 0, y: -8}
+--- !u!114 &380275009696311692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4362206787198264812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cc7dd2620cfae941b553891c18663a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

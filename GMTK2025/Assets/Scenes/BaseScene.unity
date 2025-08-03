@@ -469,6 +469,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2893867662941618740, guid: 1b76b940b79a32144acc2608a194d7f6, type: 3}
   m_PrefabInstance: {fileID: 1293012427}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2094600771 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 635711667349116313, guid: 1b76b940b79a32144acc2608a194d7f6, type: 3}
+  m_PrefabInstance: {fileID: 1293012427}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &188999563273036575
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -760,6 +765,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 380275009696311692, guid: b486785a6193626479133c8186f69d39, type: 3}
+      propertyPath: YouWinUI
+      value: 
+      objectReference: {fileID: 2094600771}
     - target: {fileID: 4362206787198264812, guid: b486785a6193626479133c8186f69d39, type: 3}
       propertyPath: m_Name
       value: RoomManager

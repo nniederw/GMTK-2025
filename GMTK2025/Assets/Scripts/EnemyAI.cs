@@ -7,7 +7,9 @@ public class EnemyAI : MonoBehaviour
 {
     [SerializeField] private Transform Target = null;
     [SerializeField] private float ViewDistance = 7f;
-    [SerializeField] private float AttackDistance = 1.5f;
+    [SerializeField] private float BaseAttackDistance = 1.5f;
+    private float SwordSize = 1f;
+    private float AttackDistance => BaseAttackDistance * SwordSize;
     [SerializeField] private Item StartSword;
     private CharacterValues CharacterValues;
     private CharacterMovement CharacterMovement;
@@ -72,6 +74,11 @@ public class EnemyAI : MonoBehaviour
         {
             GenerateDefaultSword();
         }
+        if (CharacterValues.HasArmor())
+        {
+            CharacterValues.SetBaseArmor(-1);
+        }
+        SwordSize = CharacterValues.GetSword().SwordLength;
     }
     private void GenerateDefaultSword()
     {

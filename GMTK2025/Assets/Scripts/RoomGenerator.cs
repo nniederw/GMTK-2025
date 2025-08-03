@@ -9,7 +9,7 @@ public class RoomGenerator : MonoBehaviour
     [SerializeField] private List<Room> Rooms = new List<Room>();
     [SerializeField] private GameObject EnemyPrefab;
     [SerializeField] private List<Item> SpawnableItems;
-    private const float MinEnemyDistanceToPlayer = 4f;
+    private const float MinEnemyDistanceToPlayer = 6f;
     private const float CommonItemProbability = .6f;
     private const float RareItemProbability = .5f;
     private const float EpicItemProbability = .4f;
@@ -38,7 +38,7 @@ public class RoomGenerator : MonoBehaviour
         for (int i = 0; i < enemyCount; i++)
         {
             uint health = (uint)Random.Range(1, (int)maxHealth + 1);
-            uint damage = (uint)Random.Range(1, (int)maxDamage + 1);
+            uint damage = (uint)Random.Range(0, (int)maxDamage);
             enemies.Add((health, damage));
         }
         List<Vector2> enemiesPos = new List<Vector2>((int)enemyCount);
@@ -49,11 +49,8 @@ public class RoomGenerator : MonoBehaviour
         if (OldRoom != null)
         {
             SceneManager.UnloadSceneAsync(OldRoom.Value);
-            //UnloadingRoom = SceneManager.UnloadSceneAsync(OldRoom.Value);
-            //WaitForUnloading().Wait();
         }
         SceneManager.LoadScene(room.SceneName, LoadSceneMode.Additive);
-        //OldRoom = SceneManager.GetSceneByName(room.SceneName);
         uint comItems = 0;
         uint rarItems = 0;
         uint epiItems = 0;
@@ -106,6 +103,15 @@ public class RoomGenerator : MonoBehaviour
             LastDeathItemsToSpawn = new List<(Vector2 pos, Item item)>();
         }
     }
+    public static void LoadThroneRoom(string sceneName)
+    {
+        if (OldRoom != null)
+        {
+            SceneManager.UnloadSceneAsync(OldRoom.Value);
+        }
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+        LoadRoom = 1;
+    }
     private void Update()
     {
         if (LoadRoom == 0)
@@ -113,6 +119,9 @@ public class RoomGenerator : MonoBehaviour
             OldRoom = SceneManager.GetSceneAt(SceneManager.sceneCount - 1);
             SceneManager.SetActiveScene(OldRoom.Value);
             SpawnEnemies(NextEnemiesStats, NextEnemiesPositions, NextEnemiesDrops);
+            NextEnemiesStats.Clear();
+            NextEnemiesPositions.Clear();
+            NextEnemiesDrops.Clear();
             TakableItemsSpawner.SpawnItems(LastDeathItemsToSpawn);
         }
         if (LoadRoom >= 0)
