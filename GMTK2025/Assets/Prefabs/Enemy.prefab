@@ -98,7 +98,7 @@ SpriteRenderer:
   m_Size: {x: 0.6875, y: 0.6875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &3881342587280232087
@@ -130,8 +130,40 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1594665716260032015}
+  - {fileID: 1904085027541612565}
   m_Father: {fileID: 4855229667198077341}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5816550120028372668
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1904085027541612565}
+  m_Layer: 0
+  m_Name: Sword Hold Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1904085027541612565
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5816550120028372668}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.137, y: -1.027, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1594665716260032015}
+  m_Father: {fileID: 2814253170184734963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6112278315852055639
 GameObject:
@@ -218,7 +250,7 @@ SpriteRenderer:
   m_Size: {x: 0.6875, y: 0.625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &2658945712110557719
@@ -338,7 +370,7 @@ MonoBehaviour:
   Armor: {fileID: 0}
   Shield: {fileID: 0}
   Amulet: {fileID: 0}
-  EmptySprite: {fileID: -3713237228506712858, guid: b8bbc660a81395143b9e8b6d43dad456, type: 3}
+  EmptySprite: {fileID: 21300000, guid: b8bbc660a81395143b9e8b6d43dad456, type: 3}
   StartItems: []
   SwordPivotPoint: {fileID: 3881342587280232087}
   SwordSpriteRenderer: {fileID: 4855597341397687943}
@@ -357,7 +389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4edd660a0c3e2d348ae672e37777a69c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterSpeed: 1.7
+  CharacterSpeed: 3.4
 --- !u!212 &916217796640757009
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -402,12 +434,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4354231566380549168, guid: 4af29f53e1f744c41a90db28375c1255, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4af29f53e1f744c41a90db28375c1255, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.16, y: 0.16}
+  m_Size: {x: 1, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -488,14 +520,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7874301578995981428}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.38268343, w: 0.92387956}
+  m_LocalRotation: {x: 0, y: 0, z: -0.92387956, w: 0.38268343}
   m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7973936452508077037}
-  m_Father: {fileID: 2814253170184734963}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -45}
+  m_Father: {fileID: 1904085027541612565}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -135}
 --- !u!212 &4855597341397687943
 SpriteRenderer:
   m_ObjectHideFlags: 0

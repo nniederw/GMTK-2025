@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Rarity: 0
   DamageIncrease: 0
+  SwordLength: 1
   Armor: 0
   DamageBlockage: 2
-  Sprite: {fileID: 4145070663936968339, guid: a35c1aaf08ede0d44ae02e8307265fbb, type: 3}
+  AdditionalAttackSpeedPercentage: 0
+  Sprite: {fileID: 21300000, guid: a35c1aaf08ede0d44ae02e8307265fbb, type: 3}
   Class: 1

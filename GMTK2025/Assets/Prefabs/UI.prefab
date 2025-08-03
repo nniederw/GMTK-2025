@@ -417,7 +417,7 @@ GameObject:
   - component: {fileID: 572001075831454826}
   - component: {fileID: 2509714412182423642}
   - component: {fileID: 9189224668752985296}
-  - component: {fileID: 5641986749128692101}
+  - component: {fileID: 5675318265659027783}
   m_Layer: 5
   m_Name: Heart Icon
   m_TagString: Untagged
@@ -466,7 +466,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1130614278592518066}
   m_CullTransparentMesh: 1
---- !u!114 &5641986749128692101
+--- !u!114 &5675318265659027783
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -486,7 +486,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2134418548398438031, guid: fcb3f5b4a036b1146b5d43e26d84e5d3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4942ca3b6a61f214ab4d4674012a5c6f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

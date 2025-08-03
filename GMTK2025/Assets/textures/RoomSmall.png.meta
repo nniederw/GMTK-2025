@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 35eaa7c670ac1ed498624c4af8d47885
+guid: 0b5cffd7fa6125541b3e6c1061a2e158
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2197656746804434742
-    second: Chest new_0
+      213: 3083920306953566348
+    second: RoomSmall_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Chest new_0
+      name: RoomSmall_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 7
-        width: 28
-        height: 21
+        x: 0
+        y: 0
+        width: 640
+        height: 640
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 637d483ea25af7e10800000000000000
-      internalID: 2197656746804434742
+      spriteID: c88b49b0e294cca20800000000000000
+      internalID: 3083920306953566348
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Chest new_0: 2197656746804434742
+      RoomSmall_0: 3083920306953566348
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

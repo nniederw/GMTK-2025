@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee006e6eedf07eb4da3058c0c8c2c9b5, type: 3}
   m_Name: ErrorItem
   m_EditorClassIdentifier: 
+  Rarity: 0
   DamageIncrease: 0
-  DamageAbsorbtion: 0
-  Sprite: {fileID: 8682813988508808556, guid: bb4513b6a3d3bbf4c88e51ef0b038d41, type: 3}
+  SwordLength: 1
+  Armor: 0
+  DamageBlockage: 0
+  AdditionalAttackSpeedPercentage: 0
+  Sprite: {fileID: 21300000, guid: bb4513b6a3d3bbf4c88e51ef0b038d41, type: 3}
   Class: 3

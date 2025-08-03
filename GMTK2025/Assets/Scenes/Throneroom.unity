@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 258558715}
   - component: {fileID: 258558714}
   m_Layer: 0
-  m_Name: Background
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -304,7 +304,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: -1634011810346280824, guid: a1ab54565f28ebb4fa56fe2725944a92, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fe22c13dadcf5a24da3585b81cf99493, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -413,7 +413,7 @@ SpriteRenderer:
   m_Size: {x: 0.6875, y: 0.6875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &289360170
@@ -613,6 +613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 10
+  BaseDamage: 0
   BaseAttackCooldownSeconds: 0.7
   SwordSwingClockSeconds: 0.2
   MinBlockSeconds: 0.2
@@ -620,7 +621,7 @@ MonoBehaviour:
   Armor: {fileID: 0}
   Shield: {fileID: 0}
   Amulet: {fileID: 0}
-  EmptySprite: {fileID: -3713237228506712858, guid: b8bbc660a81395143b9e8b6d43dad456, type: 3}
+  EmptySprite: {fileID: 21300000, guid: b8bbc660a81395143b9e8b6d43dad456, type: 3}
   StartItems:
   - {fileID: 11400000, guid: 9b7739d016a586a4d9b897a67eecc918, type: 2}
   - {fileID: 11400000, guid: 51a3ca1f3abf7b040b428a268d5f8b7c, type: 2}
@@ -659,7 +660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4edd660a0c3e2d348ae672e37777a69c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerSpeed: 1
+  CharacterSpeed: 1
 --- !u!114 &418347532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -850,7 +851,7 @@ PrefabInstance:
     - target: {fileID: 1326376270733436969, guid: 8527ef8655fdbe745b1a69333b448c90, type: 3}
       propertyPath: EmptySprite
       value: 
-      objectReference: {fileID: -3713237228506712858, guid: b8bbc660a81395143b9e8b6d43dad456, type: 3}
+      objectReference: {fileID: 21300000, guid: b8bbc660a81395143b9e8b6d43dad456, type: 3}
     - target: {fileID: 1326376270733436969, guid: 8527ef8655fdbe745b1a69333b448c90, type: 3}
       propertyPath: MinBlockSeconds
       value: 0.4
@@ -1560,7 +1561,7 @@ SpriteRenderer:
   m_Size: {x: 0.6875, y: 0.625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1072157000

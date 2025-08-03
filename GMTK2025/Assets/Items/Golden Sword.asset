@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee006e6eedf07eb4da3058c0c8c2c9b5, type: 3}
   m_Name: Golden Sword
   m_EditorClassIdentifier: 
-  Rarity: 2
-  DamageIncrease: 5
+  Rarity: 3
+  DamageIncrease: 7
   SwordLength: 1
-  Armor: 0
-  DamageBlockage: 0
+  Armor: 1
+  DamageBlockage: 1
   AdditionalAttackSpeedPercentage: 0
-  Sprite: {fileID: 5191711035463334827, guid: 4d71e0c146b2dbd41a4533f04d90f24e, type: 3}
+  Sprite: {fileID: 21300000, guid: c8a6994c64825c549b8fa2cb80cc4140, type: 3}
   Class: 0

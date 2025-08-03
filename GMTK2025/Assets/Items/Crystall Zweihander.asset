@@ -18,5 +18,5 @@ MonoBehaviour:
   Armor: -10
   DamageBlockage: -10
   AdditionalAttackSpeedPercentage: 0
-  Sprite: {fileID: -5462905226146939197, guid: 5b68b3b547c289b4ca95f1b764731320, type: 3}
+  Sprite: {fileID: 21300000, guid: 5b68b3b547c289b4ca95f1b764731320, type: 3}
   Class: 0

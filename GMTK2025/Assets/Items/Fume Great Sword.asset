@@ -17,5 +17,6 @@ MonoBehaviour:
   SwordLength: 2
   Armor: 0
   DamageBlockage: 0
-  Sprite: {fileID: 323243829055657436, guid: 39a5343d54e6f2d43985b3ccf6171dc7, type: 3}
+  AdditionalAttackSpeedPercentage: 0
+  Sprite: {fileID: 21300000, guid: 39a5343d54e6f2d43985b3ccf6171dc7, type: 3}
   Class: 0

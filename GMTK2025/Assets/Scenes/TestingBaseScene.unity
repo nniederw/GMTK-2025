@@ -487,16 +487,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1326376270733436969, guid: 8527ef8655fdbe745b1a69333b448c90, type: 3}
       propertyPath: StartItems.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1326376270733436969, guid: 8527ef8655fdbe745b1a69333b448c90, type: 3}
+      propertyPath: 'StartItems.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 2992a31f28f96d24db8eb58d48813d54, type: 2}
     - target: {fileID: 1326376270733436969, guid: 8527ef8655fdbe745b1a69333b448c90, type: 3}
       propertyPath: 'StartItems.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: 759a7eebb7f190f4d9469c319d8342e3, type: 2}
+      objectReference: {fileID: 11400000, guid: 7fec5588557ac554da3c3055d85fc033, type: 2}
     - target: {fileID: 1326376270733436969, guid: 8527ef8655fdbe745b1a69333b448c90, type: 3}
       propertyPath: 'StartItems.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: 9b7739d016a586a4d9b897a67eecc918, type: 2}
+      objectReference: {fileID: 11400000, guid: b660e886172ffcb45813fb62c9dc39c4, type: 2}
     - target: {fileID: 2237504059419525565, guid: 8527ef8655fdbe745b1a69333b448c90, type: 3}
       propertyPath: m_Name
       value: Player
