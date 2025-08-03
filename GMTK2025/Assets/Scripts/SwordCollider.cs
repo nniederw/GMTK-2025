@@ -26,7 +26,8 @@ public class SwordCollider : MonoBehaviour
     }
     private void SetParentPosition(float swordLength)
     {
-        ParentTransform.localPosition = new Vector3(0.25f, 0.25f) + new Vector3(.25f,.25f) * swordLength;
+        //ParentTransform.localPosition = new Vector3(0.25f, 0.25f) + new Vector3(.25f,.25f) * swordLength;
+        ParentTransform.localPosition = new Vector3(.25f, - .25f) * (swordLength - 1f);
     }
     private void SetColliderLength(float length)
     {
